@@ -1,6 +1,7 @@
 import json
 import os
 import random
+import yaml
 
 class CustomDataLoader() :
     def __init__(self, path : str, main_category : str, want_items : list = None, option=None) :
@@ -65,7 +66,6 @@ class CustomDataLoader() :
                     jsonArray =  json_data.get("data")
                     for st in jsonArray:
                         image_id.append(st.get(want_item)) # 원하는 품목
-                        #print(image_id)
                         #image_id.append(st.get("Filename")) # 원하는 품목
 
             result[self.second_category_list[i]] = image_id
@@ -88,7 +88,3 @@ for want_list in want_lists :
     result.append(DataHandler.get_item(want_list))
 
 print(result)
-
-
-
-# https://jimmy-ai.tistory.com/147
