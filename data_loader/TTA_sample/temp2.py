@@ -7,12 +7,14 @@ class CustomDataLoader() :
         
         self.main_category = main_category
         self.path = path
+        self.want_item = want_items
+
         self.second_category_list = self.get_second_category(self.path, self.main_category)
         self.third_category_list = self.get_third_category(self.path, self.main_category, self.second_category_list)
         self.ImageID = self.get_json(self.path, self.main_category, self.second_category_list, self.third_category_list)
 
     def get_ImageID(self) :
-        print(self.ImageID) 
+        print(self.ImageID)
 
     def get_json(self, path, main_category, second_category_list, third_category_list):
         result = {}
@@ -51,15 +53,41 @@ class CustomDataLoader() :
 
         return third_catory_list
 
-    
+
+    def get_item(self, want_item) :
+        result = {}
+        for i in range(len(self.second_category_list)): # 2
+            image_id = []
+            for j in range(len(self.third_category_list[i])):
+                json_path = self.path + self.main_category + '/' + self.second_category_list[i] + '/' + self.third_category_list[i][j] + '/' + 'info.json'
+                with open(json_path, 'r') as f:
+                    json_data = json.load(f)
+                    jsonArray =  json_data.get("data")
+                    for st in jsonArray:
+                        image_id.append(st.get(want_item)) # 원하는 품목
+                        #print(image_id)
+                        #image_id.append(st.get("Filename")) # 원하는 품목
+
+            result[self.second_category_list[i]] = image_id
+
+        real_result = {}
+        real_result[self.main_category] = result
+
+        return real_result
+
+# Option
 path = './TTA_sample/'
-main_category='test_item'
+main_category='IT'
 
-CustomDataLoader(path, main_category).get_ImageID()
+want_lists =  ['RegisteredNumber', 'Filename', 'BrandCode']
 
+result = []
+DataHandler = CustomDataLoader(path, main_category)
 
+for want_list in want_lists :
+    result.append(DataHandler.get_item(want_list))
 
-
+print(result)
 
 
 

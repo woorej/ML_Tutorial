@@ -1,51 +1,60 @@
-
-import json
 import os
+import json
 
 
-main_category='TTA_sample/IT'
+def get_json(path, main_category, second_category_list, third_category_list):
+    result = {}
+    for i in range(len(second_category_list)): # 2
+        image_id = []
+        for j in range(len(third_category_list[i])):
+            json_path = path + main_category + '/' + second_category_list[i] + '/' + third_category_list[i][j] + '/' + 'info.json'
+            with open(json_path, 'r') as f:
+                json_data = json.load(f)
+                jsonArray =  json_data.get("data")
+                for st in jsonArray:
+                    image_id.append(st.get("ImageID"))
+                                   
+        result[second_category_list[i]] = image_id
+    return result
 
-json_list = []
-
-for root, paths, files in os.walk(main_category) :
-    for file in files :
-        if os.path.splitext(os.path.join(root, file))[1] == '.json' :
-            json_list.append(os.path.join(root, file))
-            print(os.path.join(root, file))
-
-# k = {}
-# for i, j in enumerate(json_list) :
-#     with open(j, "r") as f:
-#         data = json.load(f)
-#         k['a'][json_list[i]] = data
-
-#print(k['TTA_sample/IT/H4131_스피커/스피커_Beosound_Balance/info.json'])
-
-# print(data['data']) # list
-# print('-'*100)
-
-# h = data['data'][0]['Filename']
-# print(h)
+def get_second_category(path, main_category):
+    root_dir = os.path.join(path, main_category)
+    root_under_dir_list = os.listdir(root_dir)
+    return root_under_dir_list   # H4131_스피커, H4141_헤드폰
 
 
+def get_third_category(path, main_category, second_category_list): # IT ,['H4131_스피커', 'H4141_헤드폰']
+    
+    third_catory_list = []
+    for i in range(len(second_category_list)):
+        root_dir = os.path.join(path+main_category,second_category_list[i]) # './ML_Tutorial/data_loader/TTA_sample/IT' + ['H4131_스피커', 'H4141_헤드폰']
+        root_under_dir_list = os.listdir(root_dir) #  ['스피커_Beosound_Balance', '스피커_ANIMO', '스피커_AXIS_C1410_Network_Mini_Speaker'..]
+        third_catory_list.append(root_under_dir_list)
+
+    return third_catory_list
 
 
 
-"""
-하나의 아이템에 대한 조도별 다른 사진
-RegisteredNumber을 키 값으로 하는 Value를 여러개 생성함
+# 요기가 이제 main function 이지 않을까
+path = './TTA_sample/'
 
-[{'ImageID': 'NW_2022_3010950760000_100_000_000_000_000', 'Filename': 'D:/TTA_sample/IT/H4131_스피커/스피커_Beosound_Balance/3010950760000/100_000_000_000_000.jpg', 
-'AcquisitionMethod': '1', 'ProductID': '스피커', 'BrandCode': 'ZZ', 'ProductName': 'BALMUDA_The_Speaker', 'ClassCodeKR': 'H4131', 'ClassCodeINT': '14-01',
- 'ViewPoint': 0, 'Angle': 0, 'Illuminance': '000', 'RegisteredNumber': '3010950760000', 'Packaging': '0'}, 
- 
- {'ImageID': 'NW_2022_3010950760000_100_000_045_000_000', 'Filename': 'D:/TTA_sample/IT/H4131_스피커/스피커_Beosound_Balance/3010950760000/100_000_045_000_000.jpg', 
- 'AcquisitionMethod': '1', 'ProductID': '스피커', 'BrandCode': 'ZZ','ProductName': 'BALMUDA_The_Speaker', 'ClassCodeKR': 'H4131', 'ClassCodeINT': '14-01', 
- 'ViewPoint': 0, 'Angle': 45, 'Illuminance': '000', 'RegisteredNumber': '3010950760000', 'Packaging': '0'}, 
- 
- {'ImageID': 'NW_2022_3010950760000_100_000_045_315_000', 'Filename': 'D:/TTA_sample/IT/H4131_스피커/스피커_Beosound_Balance/3010950760000/100_000_045_315_000.jpg', 
- 'AcquisitionMethod': '1', 'ProductID': '스피커', 'BrandCode': 'ZZ', 'ProductName': 'BALMUDA_The_Speaker', 'ClassCodeKR': 'H4131', 'ClassCodeINT': '14-01', 
-  'ViewPoint': 315, 'Angle': 45, 'Illuminance': '000', 'RegisteredNumber': '3010950760000', 'Packaging': '0'}]
+main_category = 'test_item'
 
-ViewPoint, Angle, 
-"""
+second_category_list = get_second_category(path, main_category)
+'''
+['H4131_스피커', 'H4141_헤드폰']
+'''
+third_category_list = get_third_category(path, main_category, second_category_list)
+'''
+[['스피커_Beosound_Balance', '스피커_ANIMO', '스피커_AXIS_C1410_Network_Mini_Speaker', '스피커_BEOSOUND_EMERGE', '스피커_BALMUDA_The_Speaker'], 
+['헤드폰_AKG_K371_헤드폰', '헤드폰_AKG_K175_프로페셔널_접이식_밀폐형', '헤드폰_Awei_A790BL', '헤드폰_akg_headphone_y500bt', '헤드폰_Apple_에어팟_맥스']]
+'''
+image_ID = get_json(path, main_category, second_category_list, third_category_list)
+
+result = {}
+result[main_category] = image_ID
+   
+#print('H4131_스피커 개수 :', len(result['IT']['H4131_스피커']))
+#print('H4141_헤드폰 개수 :', len(result['IT']['H4141_헤드폰']))
+
+print(result)
