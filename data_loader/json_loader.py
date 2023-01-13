@@ -1,9 +1,9 @@
 import json
 import os
 import random
-import yaml
+import math
 
-class CustomDataLoader() :
+class DataHandler() :
     def __init__(self, path : str, main_category : str, want_items : list = None, option=None) :
         
         self.main_category = main_category
@@ -55,7 +55,7 @@ class CustomDataLoader() :
         return third_catory_list
 
 
-    def get_item(self, want_item) :
+    def get_item(self, want_item, split=False) :
         result = {}
         for i in range(len(self.second_category_list)): # 2
             image_id = []
@@ -73,18 +73,47 @@ class CustomDataLoader() :
         real_result = {}
         real_result[self.main_category] = result
 
+
+        if split is True :
+            ratio = 0.8
+            random.seed(42)
+            add_second_category_train_dataset = {}
+            add_second_category_test_dataset = {}
+            for key in result.keys() :
+                num = math.ceil(ratio * len(result[key])) # number of train data
+                train_data_set = random.sample(result[key], num)
+                print(f'{self.main_category}-{key}-Total number: {len(result[key])}, ratio: {ratio}, train_set_number: {len(train_data_set)}',end='')
+                
+                # remove picked item
+                for i in train_data_set :
+                    result[key].remove(i) # test_data_set
+                
+                add_second_category_train_dataset[key] = train_data_set # 중분류가 입력된 train_dataset
+                add_second_category_test_dataset[key] = result[key] # 중분류가 입력된 test_dataset
+                print(f', test_set_number: {len(result[key])}')
+
+            # 대분류 입력
+            add_main_category_train_dataset = {}
+            add_main_category_train_dataset[self.main_category] = add_second_category_train_dataset
+
+            add_main_category_test_dataset = {}
+            add_main_category_test_dataset[self.main_category] = add_second_category_test_dataset
+
+            return add_main_category_train_dataset, add_main_category_test_dataset
+            
+
         return real_result
 
 # Option
 path = './TTA_sample/'
 main_category='IT'
-
-want_lists =  ['RegisteredNumber', 'Filename', 'BrandCode']
+want_lists =  ["ProductID", "RegisteredNumber"]
 
 result = []
-DataHandler = CustomDataLoader(path, main_category)
+DataHandler = DataHandler(path, main_category)
 
+# if you want train, test data split -> get_item(want_list, split=True) 
 for want_list in want_lists :
-    result.append(DataHandler.get_item(want_list))
+    result.append(DataHandler.get_item(want_list, split=True))
 
 print(result)
