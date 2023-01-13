@@ -2,7 +2,7 @@
 This repository is for many kinds of project collaborating project
 
 # data_loader
-인공지능 관세청 과제 관련 Data Handler
+Data Handler from AI task organized by Korea Customs Service
 
 # vgg_tutorial
 - Dataset : plant_dataset
