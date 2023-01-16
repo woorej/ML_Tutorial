@@ -112,19 +112,13 @@ class DataHandler() :
 
         return real_result
 
-# Option
-path = './TTA_sample/'
-main_category='IT'
 
-
-result = []
-DataHandler = DataHandler(path, main_category)
 '''
 Target_Data
     Use 
         you should make a list
             example : want_lists = ["Filename", "ImageID"]
-            
+
 Data_Split
     Use
         example : split=True
@@ -133,15 +127,22 @@ Data_Split
         test_dataset = number of image - train_dataset
     Not Use
         example : split=False
- 
+
 View_point
     Use
         you should make a list
         example : view_point[0, 60, 90]
     Not Use
         example : view_point=False
-        
+
 '''
+
+result = []
+path = './TTA_sample/'
+main_category='IT'
+
+DataHandler = DataHandler(path, main_category)
+
 want_lists = ["Filename", "RegisteredNumber"]
 
 for want_list in want_lists :
@@ -149,9 +150,4 @@ for want_list in want_lists :
 
 # for want_list in want_lists :
 #     result.append(DataHandler.get_item(want_list, split=True, view_point=False))
-
-
-
-
-
 print(result)
