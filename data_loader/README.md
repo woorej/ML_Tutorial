@@ -20,5 +20,11 @@ print(result)
 - Not Use
     - example
         - split=False
+```
+want_lists = ["Filename", "RegisteredNumber"]
+
+for want_list in want_lists :
+    result.append(DataHandler.get_item(want_list), split=True)
+```
 
 ## View Point
