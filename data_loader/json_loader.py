@@ -55,7 +55,7 @@ class DataHandler() :
         return third_catory_list
 
 
-    def get_item(self, want_item, split=False) :
+    def get_item(self, want_item, split=False, view_point=False) :
         result = {}
         for i in range(len(self.second_category_list)): # 2
             image_id = []
@@ -65,8 +65,14 @@ class DataHandler() :
                     json_data = json.load(f)
                     jsonArray =  json_data.get("data")
                     for st in jsonArray:
-                        image_id.append(st.get(want_item)) # 원하는 품목
-                        #image_id.append(st.get("Filename")) # 원하는 품목
+                        # image_id.append(st.get("Filename")) # 원하는 품목
+                        if view_point is False :
+                            image_id.append(st.get(want_item))  # 원하는 품목
+                        else :
+                            #print(st.get('ViewPoint'))
+                            if st.get('ViewPoint') in view_point :
+                                image_id.append(st.get(want_item))
+
 
             result[self.second_category_list[i]] = image_id
 
@@ -77,8 +83,10 @@ class DataHandler() :
         if split is True :
             ratio = 0.8
             random.seed(42)
+
             add_second_category_train_dataset = {}
             add_second_category_test_dataset = {}
+
             for key in result.keys() :
                 num = math.ceil(ratio * len(result[key])) # number of train data
                 train_data_set = random.sample(result[key], num)
@@ -107,13 +115,43 @@ class DataHandler() :
 # Option
 path = './TTA_sample/'
 main_category='IT'
-want_lists =  ["ProductID", "RegisteredNumber"]
+
 
 result = []
 DataHandler = DataHandler(path, main_category)
+'''
+Target_Data
+    Use 
+        you should make a list
+            example : want_lists = ["Filename", "ImageID"]
+            
+Data_Split
+    Use
+        example : split=True
+        (default ratio = 0.8)
+        train_dataset = number of image * ratio
+        test_dataset = number of image - train_dataset
+    Not Use
+        example : split=False
+ 
+View_point
+    Use
+        you should make a list
+        example : view_point[0, 60, 90]
+    Not Use
+        example : view_point=False
+        
+'''
+want_lists = ["Filename", "RegisteredNumber"]
 
-# if you want train, test data split -> get_item(want_list, split=True) 
 for want_list in want_lists :
-    result.append(DataHandler.get_item(want_list, split=True))
+    result.append(DataHandler.get_item(want_list, split=True, view_point=[60, 90]))
+
+# for want_list in want_lists :
+#     result.append(DataHandler.get_item(want_list, split=True, view_point=False))
+
+
+
+
 
 print(result)
