@@ -3,5 +3,5 @@
 ## Target Data
 ### Target_Data
 - Use
-    - yousdf
-            example : want_lists = ["Filename", "ImageID"]
+    - you should make a list
+        want_lists = ["Filename", "ImageID"]
