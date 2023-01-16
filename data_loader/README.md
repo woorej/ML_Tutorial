@@ -4,10 +4,12 @@
 - Use
     - you should make a list
     - example
-```want_lists = ["Filename", "RegisteredNumber"]
+```
+want_lists = ["Filename", "RegisteredNumber"]
 for want_list in want_lists :
     result.append(DataHandler.get_item(want_list))
-print(result)```
+print(result)
+```
 
 ## Data_split
 - Use
