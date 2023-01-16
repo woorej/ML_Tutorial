@@ -3,5 +3,5 @@
 ## Target Data
 ### Target_Data
 - Use 
- - you should make a list
+- - you should make a list
             example : want_lists = ["Filename", "ImageID"]
