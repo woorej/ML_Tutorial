@@ -9,8 +9,6 @@ want_lists = ["Filename", "RegisteredNumber"]
 
 for want_list in want_lists :
     result.append(DataHandler.get_item(want_list))
-    
-print(result)
 ```
 
 ## Data_split
@@ -28,3 +26,16 @@ for want_list in want_lists :
 ```
 
 ## View Point
+- Use
+    - example
+        - view_point = [60, 90]
+- Not Use
+    - example
+        - view_point = False
+```
+want_lists = ["Filename", "RegisteredNumber"]
+
+for want_list in want_lists :
+    result.append(DataHandler.get_item(want_list, split=False, view_point=[60, 90]))
+```
+
