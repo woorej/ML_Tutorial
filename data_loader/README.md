@@ -1,6 +1,6 @@
 # Data Handler from AI task organized by Korea Customs Service
 
-## Target Data
+## Target data
 - Use
     - you should make a list
     - example
@@ -11,7 +11,7 @@ for want_list in want_lists :
     result.append(DataHandler.get_item(want_list))
 ```
 
-## Data_split
+## Data split
 - Use
     - example
         - split=True
@@ -25,7 +25,7 @@ for want_list in want_lists :
     result.append(DataHandler.get_item(want_list), split=True)
 ```
 
-## View Point
+## View point
 - Use
     - example
         - view_point = [60, 90]
