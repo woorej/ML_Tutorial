@@ -33,7 +33,7 @@ for want_list in want_lists :
 - Not Use
     - example
         - view_point = False    
-if you want split data from view_point condition, then give view_point=True
+if you want split data from view_point condition, then give split=True will works
 ```
 want_lists = ["Filename", "RegisteredNumber"]
 
