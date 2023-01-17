@@ -32,7 +32,7 @@ for want_list in want_lists :
         - view_point = [60, 90]
 - Not Use
     - example
-        - view_point = False
+        - view_point = False \n
 if you want split data from view_point condition, then give split=True
 ```
 want_lists = ["Filename", "RegisteredNumber"]
