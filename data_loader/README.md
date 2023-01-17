@@ -4,6 +4,7 @@
 - Use
     - you should make a list
     - example
+        - wnat_lists = ["ImageID", "ProductName", "ViewPoint"]
 ```
 want_lists = ["Filename", "RegisteredNumber"]
 
