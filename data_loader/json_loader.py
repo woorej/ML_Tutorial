@@ -146,7 +146,7 @@ DataHandler = DataHandler(path, main_category)
 want_lists = ["Filename", "RegisteredNumber"]
 
 for want_list in want_lists :
-    result.append(DataHandler.get_item(want_list, split=True, view_point=[60, 90]))
+    result.append(DataHandler.get_item(want_list, split=False, view_point=[60, 90]))
 
 # for want_list in want_lists :
 #     result.append(DataHandler.get_item(want_list, split=True, view_point=False))
